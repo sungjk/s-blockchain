@@ -1,2 +1,27 @@
+*.iml
 *.class
 *.log
+logs/*
+
+# sbt specific
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.project
+.classpath
+
+samples
+.cache
+/bin/
+.cache-main
+.cache-tests
+.settings/
+.gitignore
+.idea
+.idea_modules
