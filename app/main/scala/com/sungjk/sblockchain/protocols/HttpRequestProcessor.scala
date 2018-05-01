@@ -10,7 +10,8 @@ class HttpRequestProcessor()(implicit val ec: ExecutionContext) {
 
 	def process(request: Request): Future[Response] = {
 		request match {
-
+			case _ =>
+				Future.successful(SuccessResponse)
 		}
 	}
 }

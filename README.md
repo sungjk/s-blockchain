@@ -4,7 +4,12 @@ Minimal and Simple blockchain implementation in Scala with Netty
 ## API Endpoint Reference
 | METHOD | ENDPOINT | USAGE | DESCRIPTION |
 |--------|----------|-------|-------------|
-|  |  |  |
+| GET | /mine | mine by running proof of work mining to validate new blocks  |
+| GET | /chain | return the chain stored in the current node |
+| GET | /nodes | get the list of nodes participating in the mining |
+| POST | /messages/new | add a new message to the current node |
+| POST | /nodes/join |  join the block chain |
+
 
 ## Getting Started
 
