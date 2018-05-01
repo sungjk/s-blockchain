@@ -1,4 +1,6 @@
 # s-blockchain
+[![Build Status](https://travis-ci.org/sungjk/s-blockchain.svg?branch=master)](https://travis-ci.org/sungjk/s-blockchain)
+
 Minimal and Simple blockchain implementation in Scala with Netty
 
 ## API Endpoint Reference
