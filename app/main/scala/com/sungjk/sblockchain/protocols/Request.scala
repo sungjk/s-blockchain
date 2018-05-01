@@ -7,7 +7,8 @@ import org.json4s.JsonAST.JObject
 sealed trait Request
 
 object BlockChainRequest extends Request {
-	case class MineBlock(nonce: Long) // MineBlock
+	case class NewBlock(nonce: Long)
+	case class MineBlock()
 	case class GetChains()
 	case class GetNodes()
 	case class GetBlocks()
@@ -18,6 +19,7 @@ object BlockChainRequest extends Request {
 object Request {
 	def fromGet(action: String, query: Option[JObject]): Either[InvalidRequest, Request] = {
 		action match {
+			case "/block" => ??? // NewBlock
 			case "/mine" => ??? // MineBlock
 			case "/chain" => ??? // GetChains
 			case "/nodes" => ??? // GetNodes
