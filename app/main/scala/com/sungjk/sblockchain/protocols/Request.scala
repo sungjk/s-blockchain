@@ -1,13 +1,27 @@
 package com.sungjk.sblockchain.protocols
 
 import com.sungjk.sblockchain.common.Errors.{InvalidAction, InvalidRequest}
+import com.sungjk.sblockchain.core.BlockMessage
 import org.json4s.JsonAST.JObject
 
 sealed trait Request
 
+object BlockChainRequest extends Request {
+	case class MineBlock(nonce: Long) // MineBlock
+	case class GetChains()
+	case class GetNodes()
+	case class GetBlocks()
+	case class AddMessages(messages: Seq[BlockMessage])
+	case class RegisterNode()
+}
+
 object Request {
 	def fromGet(action: String, query: Option[JObject]): Either[InvalidRequest, Request] = {
 		action match {
+			case "/mine" => ??? // MineBlock
+			case "/chain" => ??? // GetChains
+			case "/nodes" => ??? // GetNodes
+			case "/blocks" => ??? // GetBlocks
 			case _ =>
 				Left(InvalidAction)
 		}
@@ -15,9 +29,10 @@ object Request {
 
 	def fromPost(action: String, json: JObject): Either[InvalidRequest, Request] = {
 		action match {
+			case "/messages/new" => ??? // AddMessages
+			case "/nodes/join" => ??? // RegisterNode
 			case _ =>
 				Left(InvalidAction)
 		}
 	}
-
 }
