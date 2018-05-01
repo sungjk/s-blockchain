@@ -1,23 +1,27 @@
 package com.sungjk.sblockchain.core
 
 import com.sungjk.sblockchain.common.Timestamp
+import org.json4s.JsonDSL._
+import org.json4s._
 
-case class BlockMessage(data: String)
-
-object GenesisBlock extends Block(
-    index = 0,
-    previousHash = "",
-    timestamp = Timestamp.current,
-    messages = Seq(BlockMessage("Genesis")),
-    nonce = 0,
-    hash = Crypto.sha256Hash("Genesis")
-)
+case class BlockMessage(data: String) {
+	def toJson: JObject = "data" -> data
+}
 
 case class Block(
-    index: Long,
-    previousHash: String,
-    timestamp: Timestamp,
-    messages: Seq[BlockMessage],
-    nonce: Long,
-    hash: String
-)
+	index: Long,
+	previousHash: String,
+	timestamp: Timestamp,
+	messages: List[BlockMessage],
+	nonce: Long
+) {
+	def toJson: JObject =
+		("index" -> index) ~
+		("previousHash" -> previousHash) ~
+		("timestamp" -> timestamp.timestamp) ~
+		("messages" -> (messages map { _.toJson })) ~
+		("nonce" -> nonce)
+
+	def toContentString: String =
+		s"$index:${previousHash.toString}:${timestamp.timestamp}:${messages map { _.data } mkString ":"}:$nonce"
+}

@@ -1,30 +1,39 @@
 package com.sungjk.sblockchain.core
 
-import scala.util.Try
+import java.net.URL
 
-sealed trait Chain {
-    val size: Int
-    val blockHash: String
-    val block: Block
-    val proof: Long
-}
+import com.sungjk.sblockchain.common.Timestamp
+
+import scala.collection.mutable.ArrayBuffer
 
 class BlockChain(chain: Chain = EmptyChain) {
+	val messages : ArrayBuffer[BlockMessage] = ArrayBuffer.empty
+	val nodes : ArrayBuffer[URL] = ArrayBuffer.empty
 
-    def firstBlock: Block = ???
+	def registerNode(address: String): Unit = nodes += new URL(address)
 
-    def latestBlock: Block = ???
+	def addMessage(data: String) : Int = {
+		messages += BlockMessage(data)
+		chain.size + 1
+	}
 
-    def contains(blockMessage: BlockMessage): Boolean = ???
+	def checkPoWSolution(lastHash: String, proof: Long) : Boolean =
+		ProofOfWork.validateProof(lastHash, proof)
 
-    def appendBlocks( newBlocks: Seq[Block] ): Try[BlockChain] = ???
+	def addBlock(nonce: Long, previousHash: String = "") : BlockChain = {
+		val block = Block(chain.size + 1, previousHash, Timestamp.current, messages.toList, nonce)
+		messages.clear()
+		new BlockChain(block :: chain)
+	}
 
-    def addBlock(newBlock: Block): Try[ BlockChain ] = ???
+	def findProof() : Long = ProofOfWork.proofOfWork(getLastHash)
 
-    def addMessage(data: String, nonce: Long = 0): Try[BlockChain] =
-        addBlock(generateNextBlock(Seq(BlockMessage(data)), nonce))
+	def getLastBlock: Block = chain.block
 
-    def generateNextBlock(blockMessages: Seq[BlockMessage], nonce: Long): Block = ???
+	def getLastHash: String = chain.hash
 
-    override def toString: String = ???
+	def getLastIndex: Int = this.chain.size
+
+	def getChain: Chain = this.chain
+
 }
